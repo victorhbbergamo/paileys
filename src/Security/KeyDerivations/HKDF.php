@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Upward\Paileys\Security\KeyDerivations;
 
@@ -14,21 +14,16 @@ use Upward\Paileys\Security\Key;
  * This implementation follows RFC 5869 and is used in the Signal Protocol
  * for deriving keys from shared secrets.
  */
-class HKDF implements Derivation
+readonly class HKDF implements Derivation
 {
-    /**
-     * The hash algorithm to use for HMAC
-     */
-    private string $hashAlgorithm;
-
     /**
      * Create a new HKDF instance with the specified hash algorithm
      *
-     * @param  string  $hashAlgorithm  The hash algorithm to use (default: sha256)
+     * @param string $algorithm The hash algorithm to use (default: sha256)
      */
-    public function __construct(string $hashAlgorithm = 'sha256')
-    {
-        $this->hashAlgorithm = $hashAlgorithm;
+    public function __construct(
+        private string $algorithm = 'sha256'
+    ) {
     }
 
     /**
@@ -39,7 +34,7 @@ class HKDF implements Derivation
         // Extract phase: PRK = HMAC-Hash(salt, IKM)
         // We use a zero salt as per Signal Protocol specification
         $salt = str_repeat("\0", $this->getHashLength());
-        $prk = hash_hmac($this->hashAlgorithm, $inputKey->bytes, $salt, true);
+        $prk = hash_hmac($this->algorithm, $inputKey->bytes, $salt, true);
 
         // Expand phase: OKM = HKDF-Expand(PRK, info, L)
         $okm = $this->expand($prk, $info, $length);
@@ -66,9 +61,9 @@ class HKDF implements Derivation
     /**
      * HKDF-Expand function as defined in RFC 5869
      *
-     * @param  string  $prk  The pseudorandom key (from Extract phase)
-     * @param  string  $info  The context and application specific information
-     * @param  int  $length  The length of the output keying material in bytes
+     * @param string $prk The pseudorandom key (from Extract phase)
+     * @param string $info The context and application specific information
+     * @param int $length The length of the output keying material in bytes
      * @return string The output keying material
      */
     private function expand(string $prk, string $info, int $length): string
@@ -79,7 +74,7 @@ class HKDF implements Derivation
         $t = '';
 
         for ($i = 1; $i <= $n; $i++) {
-            $t = hash_hmac($this->hashAlgorithm, $t . $info . chr($i), $prk, true);
+            $t = hash_hmac($this->algorithm, $t . $info . chr($i), $prk, true);
             $okm .= $t;
         }
 
@@ -93,6 +88,6 @@ class HKDF implements Derivation
      */
     private function getHashLength(): int
     {
-        return strlen(hash($this->hashAlgorithm, '', true));
+        return strlen(hash($this->algorithm, '', true));
     }
 }
