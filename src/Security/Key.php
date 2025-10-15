@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Upward\Paileys\Security\Key;
+namespace Upward\Paileys\Security;
 
 use Random\RandomException;
 use Upward\Paileys\Contracts\Security\KeyInterface;
@@ -13,9 +13,7 @@ use Upward\Paileys\Contracts\Security\KeyInterface;
 class Key implements KeyInterface
 {
     public int $length {
-        get {
-            return strlen($this->bytes);
-        }
+        get => strlen($this->bytes);
     }
 
     /**

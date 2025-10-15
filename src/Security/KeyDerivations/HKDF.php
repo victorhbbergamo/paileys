@@ -6,7 +6,7 @@ namespace Upward\Paileys\Security\KeyDerivations;
 
 use Upward\Paileys\Contracts\Security\KeyDerivations\Derivation;
 use Upward\Paileys\Contracts\Security\KeyInterface;
-use Upward\Paileys\Security\Key\Key;
+use Upward\Paileys\Security\Key;
 
 /**
  * HMAC-based Key Derivation Function (HKDF)

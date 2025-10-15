@@ -10,7 +10,7 @@ use Upward\Paileys\Contracts\Security\KeyDerivations\Derivation;
 use Upward\Paileys\Contracts\Security\KeyInterface;
 use Upward\Paileys\Contracts\Security\Ratchet\Chaining;
 use Upward\Paileys\Security\Cipher\AeadCipher;
-use Upward\Paileys\Security\Key\Key;
+use Upward\Paileys\Security\Key;
 use Upward\Paileys\Security\KeyDerivations\HKDF;
 use Upward\Paileys\Security\Ratchet\Chain;
 
