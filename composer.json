@@ -16,7 +16,9 @@
     "minimum-stability": "stable",
     "require-dev": {
         "pestphp/pest": "^4.1",
-        "phpstan/phpstan": "^2.1"
+        "phpstan/phpstan": "^2.1",
+        "laravel/pint": "^1.25",
+        "symfony/var-dumper": "^7.3"
     },
     "config": {
         "allow-plugins": {
