@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Upward\Paileys\Security\Ratchet;
 
@@ -27,12 +27,12 @@ class Chain implements Chaining
     ) {
     }
 
-    protected(set) KeyInterface $messageKey {
+    public protected(set) KeyInterface $messageKey {
         get => $this->getMessageKey();
         set => $this->messageKey = $value;
     }
 
-    protected(set) Chaining $nextChain {
+    public protected(set) Chaining $nextChain {
         get => $this->getNextChainKey();
         set => $this->nextChain = $value;
     }

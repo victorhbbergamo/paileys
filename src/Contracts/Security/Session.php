@@ -27,12 +27,12 @@ interface Session
         set;
     }
 
-    protected(set) bool $isInitiator {
+    public protected(set) bool $isInitiator {
         get;
         set;
     }
 
-    protected(set) string $id {
+    public protected(set) string $id {
         get;
         set;
     }

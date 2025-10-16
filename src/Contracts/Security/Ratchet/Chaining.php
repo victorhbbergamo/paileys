@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Upward\Paileys\Contracts\Security\Ratchet;
 
@@ -33,7 +33,7 @@ interface Chaining
      *
      * Message keys are used for encrypting/decrypting individual messages
      */
-    protected(set) KeyInterface $messageKey {
+    public protected(set) KeyInterface $messageKey {
         get;
         set;
     }
@@ -43,7 +43,7 @@ interface Chaining
      *
      * This creates a new chain with the next chain key in the sequence
      */
-    protected(set) Chaining $nextChain {
+    public protected(set) Chaining $nextChain {
         get;
         set;
     }
