@@ -11,6 +11,7 @@ use Ratchet\Client\WebSocket as RatchetWebSocket;
 use Ratchet\RFC6455\Messaging\MessageInterface;
 use React\EventLoop\Loop;
 use React\Promise\PromiseInterface;
+use Throwable;
 use Upward\Paileys\Contracts\Socket\Client;
 
 /**
@@ -51,11 +52,11 @@ class RatchetClient implements Client
         try {
             $connector = new Connector(Loop::get());
 
-            /** @var PromiseInterface $promise */
+            /** @var PromiseInterface<RatchetWebSocket> $promise */
             $promise = $connector($url);
 
             $promise->then(
-                function (RatchetWebSocket $conn) {
+                onFulfilled: function (RatchetWebSocket $conn): void {
                     $this->connection = $conn;
 
                     // Set up a message handler
@@ -79,9 +80,9 @@ class RatchetClient implements Client
                         ($this->connectCallback)();
                     }
                 },
-                function (Exception $e) {
+                onRejected: function (Throwable $exception): void {
                     if ($this->errorCallback !== null) {
-                        ($this->errorCallback)($e);
+                        ($this->errorCallback)($exception);
                     }
                 }
             );
