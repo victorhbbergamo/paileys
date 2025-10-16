@@ -16,23 +16,26 @@ interface Session
      * Get and Set the root key for this session
      */
     public KeyInterface $rootKey {
-        set;
-    }
-
-    public KeyInterface $sendingChainKey {
-        set;
-    }
-
-    public KeyInterface $receivingChainKey {
-        set;
-    }
-
-    public protected(set) bool $isInitiator {
         get;
         set;
     }
 
-    public protected(set) string $id {
+    public KeyInterface $sendingChainKey {
+        get;
+        set;
+    }
+
+    public KeyInterface $receivingChainKey {
+        get;
+        set;
+    }
+
+    protected(set) bool $isInitiator {
+        get;
+        set;
+    }
+
+    protected(set) string $id {
         get;
         set;
     }
