@@ -18,7 +18,8 @@
         "pestphp/pest": "^4.1",
         "phpstan/phpstan": "^2.1",
         "laravel/pint": "^1.25",
-        "symfony/var-dumper": "^7.3"
+        "symfony/var-dumper": "^7.3",
+        "mockery/mockery": "^1.6"
     },
     "config": {
         "allow-plugins": {
