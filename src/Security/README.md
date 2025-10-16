@@ -91,15 +91,15 @@ All messages are authenticated using the Poly1305 message authentication code, w
 
 ## Dependencies
 
-- PHP 7.4 or higher
+- PHP 8.4 or higher
 - ext-sodium: The libsodium extension for PHP, which provides modern cryptographic functions
 
 ## Testing
 
-The module includes comprehensive tests that demonstrate its functionality and verify its security properties. You can run the tests using PHPUnit:
+The module includes comprehensive tests that demonstrate its functionality and verify its security properties. You can run the tests using Pest:
 
 ```bash
-vendor/bin/phpunit tests/Feature/Security
+vendor/bin/pest tests/Feature/Security
 ```
 
 ## License
