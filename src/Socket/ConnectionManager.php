@@ -34,7 +34,7 @@ class ConnectionManager implements Manager
      * The reconnection strategy
      */
     public Closure $reconnectionStrategy {
-        set(callable $value) {
+        set {
             $this->reconnectionStrategy = $value;
         }
     }

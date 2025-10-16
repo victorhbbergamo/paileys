@@ -53,6 +53,8 @@ interface Manager
     /**
      * The reconnection strategy function (int $attempt): int
      * Should return the delay in milliseconds before the next attempt
+     *
+     * @var Closure(int $attempts): int $reconnectionStrategy
      */
     public Closure $reconnectionStrategy {
         set;
