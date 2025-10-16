@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Upward\Paileys\Socket;
 
+use Closure;
 use Upward\Paileys\Contracts\Socket\Client;
 use Upward\Paileys\Contracts\Socket\Connection\Manager;
 use Upward\Paileys\Socket\Connection\State;
@@ -19,11 +20,6 @@ class ConnectionManager implements Manager
     protected State $state = State::Disconnected;
 
     /**
-     * The WebSocket client
-     */
-    private Client $client;
-
-    /**
      * The WebSocket server URL
      */
     private ?string $serverUrl = null;
@@ -36,17 +32,16 @@ class ConnectionManager implements Manager
     /**
      * The reconnection strategy
      */
-    private $reconnectionStrategy;
+    private Closure $reconnectionStrategy;
 
     /**
      * Create a new connection manager
      *
      * @param Client $client The WebSocket client to use
      */
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
-
+    public function __construct(
+        protected readonly Client $client,
+    ) {
         // Set the default reconnection strategy (exponential backoff)
         $this->reconnectionStrategy = function (int $attempt): int {
             return min(30000, 1000 * (2 ** $attempt)); // Max 30 seconds
