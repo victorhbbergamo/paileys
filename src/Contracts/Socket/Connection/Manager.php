@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Upward\Paileys\Contracts\Socket\Connection;
 
+use Closure;
 use Upward\Paileys\Socket\Connection\State;
 
 /**
@@ -15,18 +16,47 @@ use Upward\Paileys\Socket\Connection\State;
 interface Manager
 {
     /**
+     * Check if the connection is currently active
+     */
+    public bool $isConnected {
+        get;
+    }
+
+    /**
+     * The timestamp when the connection was established, or null if not connected
+     */
+    protected(set) int | null $connectedSince {
+        get;
+        set;
+    }
+
+    /**
+     * Get the URL of the WebSocket server
+     *
+     * @return string|null The WebSocket server URL, or null if not connected
+     */
+    protected(set) null | string $serverUrl {
+        get;
+        set;
+    }
+
+    /**
      * Get the current connection state
      *
      * @return State The current connection state (e.g., "connected", "disconnected", "connecting")
      */
-    public function getState(): State;
+    protected(set) null | State $state {
+        get;
+        set;
+    }
 
     /**
-     * Check if the connection is currently active
-     *
-     * @return bool True if connected, false otherwise
+     * The reconnection strategy function (int $attempt): int
+     * Should return the delay in milliseconds before the next attempt
      */
-    public function isConnected(): bool;
+    public Closure $reconnectionStrategy {
+        set;
+    }
 
     /**
      * Attempt to reconnect to the WebSocket server
@@ -36,27 +66,4 @@ interface Manager
      * @return bool True if reconnection was successful, false otherwise
      */
     public function reconnect(int $maxAttempts = 5, int $delay = 1000): bool;
-
-    /**
-     * Set the reconnection strategy
-     *
-     * @param callable $strategy The reconnection strategy function (int $attempt): int
-     *                          Should return the delay in milliseconds before the next attempt
-     * @return void
-     */
-    public function setReconnectionStrategy(callable $strategy): void;
-
-    /**
-     * Get the time the connection was established
-     *
-     * @return int|null The timestamp when the connection was established, or null if not connected
-     */
-    public function getConnectedSince(): int | null;
-
-    /**
-     * Get the URL of the WebSocket server
-     *
-     * @return string|null The WebSocket server URL, or null if not connected
-     */
-    public function getServerUrl(): string | null;
 }

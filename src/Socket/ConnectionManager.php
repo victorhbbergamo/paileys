@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Upward\Paileys\Socket;
 
 use Closure;
+use Exception;
 use Upward\Paileys\Contracts\Socket\Client;
 use Upward\Paileys\Contracts\Socket\Connection\Manager;
 use Upward\Paileys\Socket\Connection\State;
@@ -17,22 +18,30 @@ class ConnectionManager implements Manager
     /**
      * Current connection state
      */
-    protected State $state = State::Disconnected;
+    protected(set) State $state = State::Disconnected;
 
     /**
      * The WebSocket server URL
      */
-    private ?string $serverUrl = null;
+    protected(set) string | null $serverUrl = null;
 
     /**
      * The time the connection was established
      */
-    private ?int $connectedSince = null;
+    protected(set) int | null $connectedSince = null;
 
     /**
      * The reconnection strategy
      */
-    private Closure $reconnectionStrategy;
+    public Closure $reconnectionStrategy {
+        set(callable $value) {
+            $this->reconnectionStrategy = $value;
+        }
+    }
+
+    public bool $isConnected {
+        get => $this->state === State::Connected;
+    }
 
     /**
      * Create a new connection manager
@@ -49,22 +58,6 @@ class ConnectionManager implements Manager
 
         // Set up event handlers
         $this->setupEventHandlers();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getState(): State
-    {
-        return $this->state;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isConnected(): bool
-    {
-        return $this->state === State::Connected;
     }
 
     /**
@@ -109,30 +102,6 @@ class ConnectionManager implements Manager
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function setReconnectionStrategy(callable $strategy): void
-    {
-        $this->reconnectionStrategy = $strategy;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getConnectedSince(): ?int
-    {
-        return $this->connectedSince;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getServerUrl(): ?string
-    {
-        return $this->serverUrl;
-    }
-
-    /**
      * Set up event handlers for the WebSocket client
      */
     private function setupEventHandlers(): void
@@ -150,7 +119,7 @@ class ConnectionManager implements Manager
         });
 
         // Handle errors
-        $this->client->onError(function (\Exception $e): void {
+        $this->client->onError(function (Exception $e): void {
             // If we were connecting, update the state to disconnected
             if ($this->state === State::Connecting || $this->state === State::Reconnecting) {
                 $this->state = State::Disconnected;

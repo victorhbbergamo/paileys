@@ -2,6 +2,7 @@
 
 declare(strict_types = 1);
 
+use PHPUnit\Framework\MockObject\Runtime\PropertyHook;
 use Upward\Paileys\Contracts\Socket\Client;
 use Upward\Paileys\Contracts\Socket\Connection\Manager;
 use Upward\Paileys\Contracts\Socket\MessageHandler;
@@ -10,7 +11,7 @@ use Upward\Paileys\Socket\Socket;
 beforeEach(function () {
     // Create mock objects for testing
     $this->mockClient = Mockery::mock(Client::class);
-    $this->mockConnectionManager = Mockery::mock(Manager::class);
+    $this->mockConnectionManager = $this->createMock(Manager::class);
     $this->mockMessageHandler = Mockery::mock(MessageHandler::class);
 
     // Create the Socket instance with mock dependencies
@@ -128,12 +129,12 @@ it('processes received messages through the message handler', function () {
 
 it('checks if the connection is active', function () {
     // Set up expectations
-    $this->mockConnectionManager->shouldReceive('isConnected')
-        ->once()
-        ->andReturn(true);
+    $this->mockConnectionManager
+        ->method(PropertyHook::get('isConnected'))
+        ->willReturn(true);
 
     // Call the method
-    $result = $this->socket->isConnected;
+    $result = $this->socket->connection->isConnected;
 
     // Assert the result
     expect($result)->toBeTrue();
@@ -144,10 +145,10 @@ it('attempts to reconnect to the WebSocket server', function () {
     $maxAttempts = 3;
     $delay = 500;
 
-    $this->mockConnectionManager->shouldReceive('reconnect')
-        ->once()
+    $this->mockConnectionManager
+        ->method('reconnect')
         ->with($maxAttempts, $delay)
-        ->andReturn(true);
+        ->willReturn(true);
 
     // Call the method
     $result = $this->socket->reconnect($maxAttempts, $delay);
