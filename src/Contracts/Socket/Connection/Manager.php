@@ -45,7 +45,7 @@ interface Manager
      *
      * @return State The current connection state (e.g., "connected", "disconnected", "connecting")
      */
-    protected(set) null | State $state {
+    protected(set) State $state {
         get;
         set;
     }
