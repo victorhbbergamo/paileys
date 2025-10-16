@@ -134,7 +134,7 @@ it('checks if the connection is active', function () {
         ->willReturn(true);
 
     // Call the method
-    $result = $this->socket->connection->isConnected;
+    $result = $this->socket->isConnected;
 
     // Assert the result
     expect($result)->toBeTrue();

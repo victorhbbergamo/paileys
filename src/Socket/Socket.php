@@ -28,7 +28,7 @@ class Socket
      * Check if the connection is currently active
      */
     public bool $isConnected {
-        get => $this->connection->isConnected();
+        get => $this->connection->isConnected;
     }
 
     /**
