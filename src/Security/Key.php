@@ -38,7 +38,7 @@ class Key implements KeyInterface
     /**
      * Create a new key with random bytes of the specified size
      *
-     * @param int $size The size of the key in bytes
+     * @param int<1, max> $size The size of the key in bytes
      * @return self The generated random key
      * @throws RandomException
      */

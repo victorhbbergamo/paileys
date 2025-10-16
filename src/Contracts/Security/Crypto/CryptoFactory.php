@@ -20,7 +20,7 @@ interface CryptoFactory
     /**
      * Create a random key of the specified size
      *
-     * @param  int  $size  The size of the key in bytes
+     * @param  int<1, max>  $size  The size of the key in bytes
      * @return KeyInterface The generated random key
      */
     public function randomKey(int $size = 32): KeyInterface;
