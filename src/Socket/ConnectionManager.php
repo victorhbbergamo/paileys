@@ -18,17 +18,17 @@ class ConnectionManager implements Manager
     /**
      * Current connection state
      */
-    protected(set) State $state = State::Disconnected;
+    public protected(set) State $state = State::Disconnected;
 
     /**
      * The WebSocket server URL
      */
-    protected(set) string | null $serverUrl = null;
+    public protected(set) string | null $serverUrl = null;
 
     /**
      * The time the connection was established
      */
-    protected(set) int | null $connectedSince = null;
+    public protected(set) int | null $connectedSince = null;
 
     /**
      * The reconnection strategy

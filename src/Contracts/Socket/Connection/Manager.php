@@ -25,7 +25,7 @@ interface Manager
     /**
      * The timestamp when the connection was established, or null if not connected
      */
-    protected(set) int | null $connectedSince {
+    public protected(set) int | null $connectedSince {
         get;
         set;
     }
@@ -35,7 +35,7 @@ interface Manager
      *
      * @return string|null The WebSocket server URL, or null if not connected
      */
-    protected(set) null | string $serverUrl {
+    public protected(set) null | string $serverUrl {
         get;
         set;
     }
@@ -45,7 +45,7 @@ interface Manager
      *
      * @return State The current connection state (e.g., "connected", "disconnected", "connecting")
      */
-    protected(set) State $state {
+    public protected(set) State $state {
         get;
         set;
     }

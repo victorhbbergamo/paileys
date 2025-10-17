@@ -16,7 +16,7 @@ class Store implements Session
     /**
      * The unique identifier for this session
      */
-    protected(set) string $id;
+    public protected(set) string $id;
 
     /**
      * Create a new session with the specified keys
