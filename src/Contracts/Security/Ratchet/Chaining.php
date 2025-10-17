@@ -33,9 +33,8 @@ interface Chaining
      *
      * Message keys are used for encrypting/decrypting individual messages
      */
-    public protected(set) KeyInterface $messageKey {
+    public KeyInterface $messageKey {
         get;
-        set;
     }
 
     /**
@@ -43,9 +42,8 @@ interface Chaining
      *
      * This creates a new chain with the next chain key in the sequence
      */
-    public protected(set) Chaining $nextChain {
+    public Chaining $nextChain {
         get;
-        set;
     }
 
     /**

@@ -27,35 +27,17 @@ class Chain implements Chaining
     ) {
     }
 
-    public protected(set) KeyInterface $messageKey {
-        get => $this->getMessageKey();
-        set => $this->messageKey = $value;
+    public KeyInterface $messageKey {
+        get => $this->kdf->deriveKey($this->key, 'WhatsApp Message Key', 32);
     }
 
-    public protected(set) Chaining $nextChain {
-        get => $this->getNextChainKey();
-        set => $this->nextChain = $value;
-    }
+    public Chaining $nextChain {
+        get {
+            $nextKey = $this->kdf->deriveKey($this->key, 'WhatsApp Chain Key', 32);
 
-    /**
-     * Get a message key derived from the current chain key
-     *
-     * Message keys are used for encrypting/decrypting individual messages
-     */
-    private function getMessageKey(): KeyInterface
-    {
-        // Derive a message key from the chain key
-        // Use different info strings for chain key and message key to ensure they're different
-        return $this->kdf->deriveKey($this->key, 'WhatsApp Message Key', 32);
-    }
-
-    private function getNextChainKey(): Chaining
-    {
-        // Derive the next chain key from the current one
-        $nextKey = $this->kdf->deriveKey($this->key, 'WhatsApp Chain Key', 32);
-
-        // Create a new chain with the next key and an incremented index
-        return new self($nextKey, $this->kdf, $this->index + 1);
+            // Create a new chain with the next key and an incremented index
+            return new self($nextKey, $this->kdf, $this->index + 1);
+        }
     }
 
     /**
